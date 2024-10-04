@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link.js';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, CSSProperties } from 'react';
+
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
 
 export default function CSRPage() {
-  interface Post {
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-  }
-
   const [data, setData] = useState<Post[] | null>(null);
   const [startTime] = useState(Date.now());
 
@@ -32,21 +32,19 @@ export default function CSRPage() {
       </p>
       <div style={styles.cardContainer}>
         {data ? (
-          data.slice(0, 5).map((post) => (
+          data.slice(0, 20).map((post) => (
             <div key={post.id} style={styles.card}>
               <h2 style={styles.title}>{post.title}</h2>
               <p style={styles.body}>{post.body}</p>
             </div>
           ))
         ) : (
-          <p>Loading data...</p>
+          <p>Cargando...</p>
         )}
       </div>
     </div>
   );
 }
-
-import { CSSProperties } from 'react';
 
 const styles: { [key: string]: CSSProperties } = {
     container: {

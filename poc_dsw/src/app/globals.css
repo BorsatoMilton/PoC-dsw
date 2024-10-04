@@ -40,9 +40,9 @@ li{
 
 li:hover{
   color:rgb(15, 15, 149);
-  transform: scale(1, 1.2);
+  transform: scale(1.05);
+  transition: color 0.2s ease, transform 0.2s ease; 
 }
-
 
 
 @layer utilities {

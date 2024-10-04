@@ -3,13 +3,14 @@
 import Link from 'next/link.js';
 import { useEffect, useState, CSSProperties } from 'react';
 
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
 export default function SSRPage() {
-  interface Post {
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-  }
 
   const [data, setData] = useState<Post[]>([]);
   const [startTime] = useState(Date.now());
@@ -32,7 +33,7 @@ export default function SSRPage() {
       <p style={styles.time}><Link href="../../../.">Volver a Menú</Link></p>
       <p style={styles.time}>Tiempo Renderizado: {renderTime ? `${renderTime}ms` : 'Cargando...'}</p>
       <div style={styles.cardContainer}>
-        {data.slice(0, 5).map((post) => (
+        {data.slice(0, 20).map((post) => (
           <div key={post.id} style={styles.card}>
             <h2 style={styles.title}>{post.title}</h2>
             <p style={styles.body}>{post.body}</p>

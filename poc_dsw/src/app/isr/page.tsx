@@ -1,39 +1,25 @@
-'use client'; 
-
+import { CSSProperties } from 'react';
 import Link from 'next/link.js';
-import { useEffect, useState } from 'react';
 
-export default function ISRPage() {
-  interface Post {
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-  }
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
 
-  const [data, setData] = useState<Post[]>([]);
-  const [startTime] = useState(Date.now());
-  const [renderTime, setRenderTime] = useState<number | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('https://jsonplaceholder.typicode.com/posts', { next: { revalidate: 10 } });
-      const result = await res.json();
-      setData(result);
-    };
-    
-    fetchData(); 
-
-    setRenderTime(Date.now() - startTime); 
-  }, [startTime]); 
-
+export default async function ISRPage() {
+  const startTime = Date.now();
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts', { next: { revalidate: 10 }});
+  const posts = (await res.json()) as Post[];
+  const renderTime = Date.now() - startTime
   return (
     <div style={styles.container}>
       <h1 style={styles.heading}>Incremental Static Regeneration (ISR)</h1>
       <p style={styles.time}><Link href="../../../.">Volver a Menú</Link></p>
       <p style={styles.time}>Tiempo Renderizado: {renderTime ? `${renderTime}ms` : 'Cargando..'}</p>
       <div style={styles.cardContainer}>
-        {data.slice(0, 5).map((post) => (
+        {posts.slice(0,20).map((post) => (
           <div key={post.id} style={styles.card}>
             <h2 style={styles.title}>{post.title}</h2>
             <p style={styles.body}>{post.body}</p>
@@ -43,8 +29,6 @@ export default function ISRPage() {
     </div>
   );
 }
-
-import { CSSProperties } from 'react';
 
 const styles: { [key: string]: CSSProperties } = {
   container: {
