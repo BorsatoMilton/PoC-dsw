@@ -1,5 +1,4 @@
 'use client';
-
 import Link from 'next/link.js';
 import { useEffect, useState, CSSProperties } from 'react';
 
@@ -11,14 +10,17 @@ interface Post {
 }
 
 export default function CSRPage() {
-  const [data, setData] = useState<Post[] | null>(null);
-  const [startTime] = useState(Date.now());
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [renderTime, setRenderTime] = useState<string>('Cargando...');
 
   useEffect(() => {
     const fetchData = async () => {
+      const startTime = Date.now();
       const res = await fetch('https://jsonplaceholder.typicode.com/posts');
       const result = await res.json();
-      setData(result);
+      setPosts(result);
+      const endTime = Date.now();
+      setRenderTime(`${endTime - startTime}ms`); 
     };
     fetchData();
   }, []);
@@ -28,11 +30,11 @@ export default function CSRPage() {
       <h1 style={styles.heading}>Client-Side Rendering (CSR) Page</h1>
       <p style={styles.time}><Link href="../../../.">Volver a Menú</Link></p>
       <p style={styles.time}>
-        Tiempo Renderizado: {data ? `${Date.now() - startTime}ms` : 'Cargando...'}
+        Tiempo Renderizado: {posts ? `${renderTime}` : 'Cargando...'}
       </p>
       <div style={styles.cardContainer}>
-        {data ? (
-          data.slice(0, 20).map((post) => (
+        {posts ? (
+          posts.slice(0, 20).map((post) => (
             <div key={post.id} style={styles.card}>
               <h2 style={styles.title}>{post.title}</h2>
               <p style={styles.body}>{post.body}</p>

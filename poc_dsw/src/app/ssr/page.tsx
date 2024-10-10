@@ -1,7 +1,5 @@
-'use client';
-
 import Link from 'next/link.js';
-import { useEffect, useState, CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 
 interface Post {
   userId: number;
@@ -10,30 +8,18 @@ interface Post {
   body: string;
 }
 
-export default function SSRPage() {
-
-  const [data, setData] = useState<Post[]>([]);
-  const [startTime] = useState(Date.now());
-  const [renderTime, setRenderTime] = useState<number | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-      const result = await res.json();
-      setData(result);
-    };
-
-    fetchData();
-    setRenderTime(Date.now() - startTime);
-  }, [startTime]); // Dependencias
-
+export default async function SSRPage() {
+  const startTime = Date.now();
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts', {cache: 'no-store'});
+  const posts = (await res.json()) as Post[];
+  const renderTime = Date.now() - startTime;
   return (
     <div style={styles.container}>
       <h1 style={styles.heading}>Server-Side Rendering (SSR)</h1>
       <p style={styles.time}><Link href="../../../.">Volver a Menú</Link></p>
       <p style={styles.time}>Tiempo Renderizado: {renderTime ? `${renderTime}ms` : 'Cargando...'}</p>
       <div style={styles.cardContainer}>
-        {data.slice(0, 20).map((post) => (
+        {posts.slice(0, 20).map((post) => (
           <div key={post.id} style={styles.card}>
             <h2 style={styles.title}>{post.title}</h2>
             <p style={styles.body}>{post.body}</p>
