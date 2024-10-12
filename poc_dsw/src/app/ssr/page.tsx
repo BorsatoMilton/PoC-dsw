@@ -2,15 +2,15 @@ import Link from 'next/link.js';
 import { CSSProperties } from 'react';
 
 interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
+  _id: string;
+  titulo: string;        
+  contenido: string;     
+  createdAt: Date; 
 }
 
 export default async function SSRPage() {
   const startTime = Date.now();
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts', {cache: 'no-store'});
+  const res = await fetch('http://localhost:3000/api/', {cache: 'no-store'});
   const posts = (await res.json()) as Post[];
   const renderTime = Date.now() - startTime;
   return (
@@ -20,9 +20,10 @@ export default async function SSRPage() {
       <p style={styles.time}>Tiempo Renderizado: {renderTime ? `${renderTime}ms` : 'Cargando...'}</p>
       <div style={styles.cardContainer}>
         {posts.slice(0, 20).map((post) => (
-          <div key={post.id} style={styles.card}>
-            <h2 style={styles.title}>{post.title}</h2>
-            <p style={styles.body}>{post.body}</p>
+          <div key={post._id} style={styles.card}>
+            <h2 style={styles.title}>{post.titulo}</h2>
+            <p style={styles.body}>{post.contenido}</p>
+            <p style={styles.body}>{new Date(post.createdAt).toLocaleString()}</p>
           </div>
         ))}
       </div>

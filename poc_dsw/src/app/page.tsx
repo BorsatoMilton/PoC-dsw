@@ -9,6 +9,7 @@ const Home: React.FC = () => {
         <li><Link href="/ssr">Ver SSR</Link></li>
         <li><Link href="/csr">Ver CSR</Link></li>
         <li><Link href="/isr">Ver ISR</Link></li>
+        <li><Link href="/crearNoticia">Crear Noticia</Link></li>
       </ul>
     </div>
   );
