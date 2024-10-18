@@ -1,9 +1,11 @@
 # PoC-dsw
-Prueba de concepto con Next.JS, muestra de los diferentes tipos de renderizados y generación de paginas
-Materia: Desarrollo de Software
-Alumnos:
-Arach, Mateo Simón 51394
-Borsato, Milton Rubén 51391
-Dayer, José Ignacio 51508
-Marchese, Valentín David 51745
-
+    <h1>Prueba de Concepto con Next.JS</h1>
+    <p>Muestra de los diferentes tipos de renderizados y generación de páginas</p>
+    <h2>Materia: Desarrollo de Software</h2>
+    <h3>Alumnos:</h3>
+    <ul>
+        <li>Arach, Mateo Simón - 51394</li>
+        <li>Borsato, Milton Rubén - 51391</li>
+        <li>Dayer, José Ignacio - 51508</li>
+        <li>Marchese, Valentín David - 51745</li>
+    </ul>
